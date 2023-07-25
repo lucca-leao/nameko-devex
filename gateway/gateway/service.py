@@ -172,3 +172,11 @@ class GatewayService(object):
             serialized_data['order_details']
         )
         return result['id']
+
+    @http(
+        "DELETE","/products/<string:product_id>",
+        expected_exceptions=ProductNotFound
+    )
+    def delete_product(self, request, product_id):
+        self.products_rpc.delete(product_id)
+        return Response(status=204)
