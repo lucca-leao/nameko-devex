@@ -190,4 +190,14 @@ class GatewayService(object):
         # Note - this may raise a remote exception that has been mapped to
         # raise``OrderNotFound``
         orders = self.orders_rpc.list_orders()
+        
+        product_map = {prod['id']: prod for prod in self.products_rpc.list()}
+        image_root = config['PRODUCT_IMAGE_ROOT']
+        for order in orders:
+            for item in order['order_details']:
+                product_id = item['product_id']
+                item['product'] = product_map[product_id]
+                item['image'] = '{}/{}.jpg'.format(image_root, product_id)
+        print(order)
+
         return Response([GetOrderSchema().dumps(order).data for order in orders], mimetype='application/json')
