@@ -180,3 +180,14 @@ class GatewayService(object):
     def delete_product(self, request, product_id):
         self.products_rpc.delete(product_id)
         return Response(status=204)
+    
+    @http(
+        "GET","/orders",
+        expected_exceptions=OrderNotFound
+    )
+    def list_orders(self, request):
+        # List orders data from the orders service.
+        # Note - this may raise a remote exception that has been mapped to
+        # raise``OrderNotFound``
+        orders = self.orders_rpc.list_orders()
+        return Response([GetOrderSchema().dumps(order).data for order in orders], mimetype='application/json')
