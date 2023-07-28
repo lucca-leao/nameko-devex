@@ -19,8 +19,8 @@ class OrdersService:
 
         if not order:
             raise NotFound('Order with id {} not found'.format(order_id))
-
-        return OrderSchema().dump(order).data
+        else:
+            return OrderSchema().dump(order).data
 
     @rpc
     def create_order(self, order_details):
