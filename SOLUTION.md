@@ -23,7 +23,7 @@ List orders was implemented in order service ```/gateway/service.py``` and passi
 
 ![perftest1](plot-perf1.png "Degrading perf-test")
 
-- Question: How do you fix it?
+- Question 2: How do you fix it?
   - Answer: The time complexity of ``list()`` is O(n). This is unnecessary, and a possible solution would be to implement a O(1) (best case scenario) method to get the products for each order.
 
 (bonus) Fix it: To fix the performance issue, the calls to ``list()`` products in the mentioned methods was replaced with the ``get()`` method. This is possible because the product ID is known beforehand. With this information, it's possible to get the specific products in each order instead of always listing all products. This improved the performance tests results greatly, as can be seen in the following image:
